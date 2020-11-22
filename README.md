@@ -1,3 +1,3 @@
 # Práctica Docker Compose
 
-![Screenshot](./img/banner.png)
+![alt text](./img/banner.png)
