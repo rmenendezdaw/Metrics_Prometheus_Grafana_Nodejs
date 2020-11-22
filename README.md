@@ -47,7 +47,84 @@ Grafana es una herramienta para visualizar datos de serie temporales. A partir d
 
 Grafana está escrita en Lenguaje Go (creado por Google) y Node.js LTS y con una fuerte Interfaz de Programación de Aplicaciones (API).
 
-
 ## Práctica Docker Compose con WebApp, Prometheus y Grafana
 
 Empezamos la práctica creando la estructura de los directorios:
+
+![alt text](./img/directory.png)
+
+### Web App
+
+#### Con el Dockerfile crearemos la aplicación Web, la cual:
+    - Partirá de una imagen de node (versión alpine3.10).
+    - Establecerá un directorio de trabajo "myapp" donde residirá el código de la aplicación.
+    - Expondrá el puerto publicado por el servidor express.
+    - Ejecutará como comando la instrucción necesaria para arrancar el servidor express.
+
+![alt text](./img/Dockerfile.png)
+
+#### En el archivo docker-compose.yml debemos configurar el servicio:
+    - El servicio se llama "webapp".
+    - Ejecutará un archivo Dockerfile.
+    - El nombre del contenedor será "myapp_practica".
+    - Utilizará el puerto 3000 del contenedor y el 83 para el host.
+    - Pertenecerá a una red común para todos los servicios denominada "network_practica".
+![alt text](./img/composeapp.png)
+
+
+### Prometheus
+
+#### El servicio estará configurado en el archivo docker-compose.yml con los siguientes requisitos:
+    - Se basará en la imagen de prometheus "prom/prometheus:v2.20.1".
+    - El nombre del contenedor será prometheus_practica.
+    - Utilizará el puerto 9090.
+    - Se copiará el archivo "prometheus.yml" al directorio /etc/prometheus del contenedor.
+    - Ejecutará el comando --config.file=/etc/prometheus/prometheus.yml.
+    - Pertenecerá a una red común para todos los servicios denominada "network_practica".
+![alt text](./img/composeprometheus.png)
+
+
+### Grafana
+
+Este servicio será el encargado de graficar todas las métricas creadas por el servicio de Prometheus. Por tanto, siempre arrancará tras él.
+#### El servicio estará configurado en el archivo docker-compose.yml con los siguientes requisitos:
+    - Se basará en la imagen de grafana "grafana/grafana:7.1.5".
+    - El nombre del contenedor será grafana_practica.
+    - Utilizará el puerto 3500 de nuestro host y el puerto 3000 del contenedor.
+    - Se copiará el archivo "datasources.yml" al directorio /etc/grafana/provision/datasources del contenedor.
+    - Utilizará un volumen llamado "myGrafanaVol".
+    - Pertenecerá a una red común para todos los servicios denominada "network_practica".
+#### Establecer las variables de entorno necesarias para:
+        - Deshabilitar el login de acceso a Grafana
+        - Permitir la autenticación anónima
+        - Que el rol de autenticación anónima sea Admin
+        - Que instale el plugin grafana-clock-panel 1.0.1
+
+![alt text](./img/composegrafana.png)
+
+
+
+### Docker-compose completo
+
+![alt text](./img/dockercompose.png)
+
+
+## Verificación del ejercicio
+
+### Accediendo a WebApp
+Podemos acceder a la aplicación a través del navegador con la url "localhost:83".
+![alt text](./img/webapp.png)
+
+Accederemos varias veces a "localhost:83/message".
+![alt text](./img/webappmessage.png)
+
+### Accediendo a Prometheus
+Para acceder ponemos la url "localhost:9090".
+![alt text](./img/prometheuslocalhost.png)
+
+
+### Accediendo a Grafana
+Para acceder ponemos la url "localhost:3500".
+![alt text](./img/grafanahost.png)
+
+
