@@ -110,6 +110,9 @@ Este servicio será el encargado de graficar todas las métricas creadas por el 
 
 ![alt text](./img/dockercompose.png)
 
+Una vez terminado con el docker-compose lo ejecutaremos con la orden:
+
+    sudo docker-compose up 
 
 ## Verificación del ejercicio
 
@@ -131,3 +134,76 @@ Para acceder ponemos la url "localhost:3500".
 
 
 ![alt text](./img/grafanastat.png)
+
+
+
+## Dockerizando rest
+
+Vamos a dockerizar un backend hecho con nodejs, el cual tiene juegos:
+
+Primero creamos la estructura de directorios:
+
+![alt text](./img/directoryolanda.png)
+
+Luego crearemos los servicios en el docker-compose.
+
+- El servicio de rest:
+
+![alt text](./img/rest.png)
+
+- El servicio mongo:
+
+![alt text](./img/mongocompose.png)
+
+### Docker compose completo
+
+![alt text](./img/compose1-2.png)
+![alt text](./img/compose2-2.png)
+![alt text](./img/compose3-2.png)
+
+### Endpoints
+
+Empezaremos haciendo un npm install prom-client al BE de rest.
+
+En el archivo app.js tendremos que cambiar la dirección del backend, pondremos que sea el servicio de mongo que hemos creado con el docker-compose:
+
+![alt text](./img/connect.png)
+
+Accedemos al directorio "routes" del BE rest:
+
+![alt text](./img/routes.png)
+
+Damos de alta la ruta "/metrics" en el index.js:
+
+![alt text](./img/routesindex.png)
+
+Crearemos un archivo llamado "metrics.js":
+
+![alt text](./img/metrics.png)
+
+En el archivo que contienen las relationships del BE (en mi caso games.js) vamos a configurar el Endpoint:
+
+![alt text](./img/games.js.png)
+
+Y lo llamaremos cuando hagamos la petición:
+
+![alt text](./img/endpoint.png)
+
+Lanzamos el comando para docker compos:
+    sudo docker-compose up
+
+## Verificación de la Api Rest
+
+Accedemos al navegador con la ruta "localhost:3000/api/games"
+
+![alt text](./img/gamesnav.png)
+
+
+Y si creamos un panel en grafana y le añadimos el endpoint creado podremos ver que comienza a generar las métricas.
+
+![alt text](./img/grafananav.png)
+
+
+
+
+
