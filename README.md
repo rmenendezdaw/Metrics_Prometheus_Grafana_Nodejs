@@ -69,6 +69,7 @@ Empezamos la práctica creando la estructura de los directorios:
     - El nombre del contenedor será "myapp_practica".
     - Utilizará el puerto 3000 del contenedor y el 83 para el host.
     - Pertenecerá a una red común para todos los servicios denominada "network_practica".
+
 ![alt text](./img/composeapp.png)
 
 
@@ -81,6 +82,7 @@ Empezamos la práctica creando la estructura de los directorios:
     - Se copiará el archivo "prometheus.yml" al directorio /etc/prometheus del contenedor.
     - Ejecutará el comando --config.file=/etc/prometheus/prometheus.yml.
     - Pertenecerá a una red común para todos los servicios denominada "network_practica".
+
 ![alt text](./img/composeprometheus.png)
 
 
