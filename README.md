@@ -128,3 +128,4 @@ Para acceder ponemos la url "localhost:3500".
 ![alt text](./img/grafanahost.png)
 
 
+![alt text](./img/grafanastat.png)
